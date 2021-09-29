@@ -1,27 +1,33 @@
 import React from 'react'
-import { gql, useQuery } from "@apollo/client";
-import { graphql } from 'graphql';
+import { graphql } from 'react-apollo';
+import { getBooksQuery } from '../queries/Queries';
 
+class BookList extends React.Component{
 
-// TODO: MAKE QUERIES USING GRAPHQL
-const getBooksQuery = gql`
-    {
-        query books {
-            name
-            id
+    displayBooks(){
+        var data = this.props.data;
+
+        if (data.loading) {
+            return ( <div>Loading... </div> )
+        } else {
+            return data.books.map(book => {
+                return (
+                    <li key={book.id}>{book.name}</li>
+                )
+            })
         }
     }
-`
 
-const BookList = () => {
-    const { data } = useQuery(getBooksQuery)
-    return data.books.map(({name, id}) => (
-        <div>
-            <ul key={id} id="book-list">
-                <li>{name}</li>
-            </ul>
-        </div>
-    ))
+    render(){
+        console.log(this.props)
+        return(
+            <div>
+                <ul id="book-list">
+                    {this.displayBooks()}
+                </ul>
+            </div>
+        )
+    }
 }
 
-export default BookList
+export default graphql(getBooksQuery)(BookList)

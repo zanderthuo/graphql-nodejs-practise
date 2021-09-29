@@ -1,15 +1,12 @@
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
-  useQuery,
-  gql
-} from "@apollo/client";
+} from "react-apollo";
+import ApolloClient from 'apollo-boost';
 import BookList from "./components/BookList";
+import AddBook from "./components/AddBook";
 
 const client = new ApolloClient({
   uri: 'http://localhost:5001/graphql',
-  cache: new InMemoryCache()
 });
 
 function App() {
@@ -18,6 +15,7 @@ function App() {
       <div id="main">
         <h1>Reading List</h1>
         <BookList />
+        <AddBook />
       </div>
     </ApolloProvider>
   );
